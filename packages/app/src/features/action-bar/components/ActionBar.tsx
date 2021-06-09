@@ -13,8 +13,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components';
 
-import ActionBarIcon from './atoms/ActionBarIcon';
+import ActionBarButton from './atoms/ActionBarButton';
 import ActionBarSeperator from './atoms/ActionBarSeperator';
+import ActionBarAlertButton from './molecules/ActionBarAlertButton';
 
 const ActionBar: React.FunctionComponent = () => {
 	const theme = useTheme();
@@ -25,23 +26,23 @@ const ActionBar: React.FunctionComponent = () => {
 
 	return (
 		<Wrapper>
-			<ActionBarIcon disabled>
+			<ActionBarButton disabled>
 				<FontAwesomeIcon
 					color={theme.ui.textMinor}
 					size={'1x'}
 					icon={faRing}
 				/>
-			</ActionBarIcon>
-			<ActionBarIcon disabled>
+			</ActionBarButton>
+			<ActionBarButton disabled>
 				<FontAwesomeIcon
 					color={theme.ui.textMinor}
 					size={'1x'}
 					icon={faKiwiBird}
 				/>
-			</ActionBarIcon>
+			</ActionBarButton>
 			<ActionBarSeperator />
 			<abbr title={'Go to previous item in flight history'}>
-				<ActionBarIcon
+				<ActionBarButton
 					disabled={!requirements?.canGoBack}
 					onClick={() => dispatch(actions.previousFlightHistory({ requestId: selectedTabPayload! }))}
 				>
@@ -50,10 +51,10 @@ const ActionBar: React.FunctionComponent = () => {
 						size={'lg'}
 						icon={faCaretLeft}
 					/>
-				</ActionBarIcon>
+				</ActionBarButton>
 			</abbr>
 			<abbr title={'Go to next item in flight history'}>
-				<ActionBarIcon
+				<ActionBarButton
 					disabled={!requirements?.canGoForward}
 					onClick={() => dispatch(actions.nextFlightHistory({ requestId: selectedTabPayload! }))}
 				>
@@ -62,17 +63,20 @@ const ActionBar: React.FunctionComponent = () => {
 						size={'lg'}
 						icon={faCaretRight}
 					/>
-				</ActionBarIcon>
+				</ActionBarButton>
 			</abbr>
 			<ActionBarSeperator />
+			<abbr title={'Shows possible errors with your project'}>
+				<ActionBarAlertButton />
+			</abbr>
 			<abbr title={'Go bird watching'}>
-				<ActionBarIcon>
+				<ActionBarButton>
 					<FontAwesomeIcon
 						color={theme.ui.textMinor}
 						size={'1x'}
 						icon={faSearch}
 					/>
-				</ActionBarIcon>
+				</ActionBarButton>
 			</abbr>
 		</Wrapper>
 	);
@@ -99,11 +103,12 @@ function gatherRequirements(selectedRequestId: string | undefined, request: Node
 
 const Wrapper = styled.div`
 	display: flex;
-	height: 40px;
-	-webkit-app-region: drag;
-	background-color: ${props => props.theme.ui.secondarySurface};
 	justify-content: flex-end;
 	align-items: center;
+	height: 40px;
+
+	-webkit-app-region: drag;
+	background-color: ${props => props.theme.ui.secondarySurface};
 	padding: 0 10px;
 `;
 
